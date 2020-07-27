@@ -20,6 +20,11 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip \
     && ./utils/generate_wheel.sh
 
 RUN pip3 install PyGObject --user
+# Install wirepas-messaging manually to avoid installing grpcio (not needed by gateway)
+# It should be an option od wirepas-messaging wheel
+RUN pip3 install protobuf==3.10.0 --user
+RUN pip3 install wirepas_messaging==1.2.0 --no-deps --user
+
 RUN pip3 install dist/wirepas_gateway*.whl --user
 
 
@@ -31,11 +36,11 @@ RUN apt-get update \
     && apt-get install -y python3-gi \
     && rm -fr /var/libapt/lists/*
 
-# Copy the built wheel and its dependencies from builder
-COPY --from=builder /home/wirepas/.local /home/wirepas/.local
-
 USER wirepas
 
 ENV PATH="/home/wirepas/.local/bin:${PATH}"
+
+# Copy the built wheel and its dependencies from builder
+COPY --from=builder /home/wirepas/.local /home/wirepas/.local
 
 CMD ["wm-gw"]

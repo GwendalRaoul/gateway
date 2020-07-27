@@ -20,12 +20,18 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip \
     && ./utils/generate_wheel.sh
 
 RUN pip3 install PyGObject --user
-# Install wirepas-messaging manually to avoid installing grpcio (not needed by gateway)
-# It should be an option od wirepas-messaging wheel
-RUN pip3 install protobuf==3.10.0 --user
-RUN pip3 install wirepas_messaging==1.2.0 --no-deps --user
 
-RUN pip3 install dist/wirepas_gateway*.whl --user
+# HACK start: avoid installing grpcio (not needed)
+# It should be an option of wirepas-messaging wheel instead
+
+# Install wirepas-messaging manually to avoid installing grpcio
+RUN pip3 install protobuf==3.10.0 --user
+RUN pip3 install --no-deps wirepas_messaging==1.2.0 --user
+
+# Install manually gateway too to avoid installing grpcio again
+# Remove wirepa-messaging from deps
+RUN sed -i.bak '/wirepas_messaging/d' requirements.txt
+RUN pip3 install -r requirements.txt --no-deps dist/wirepas_gateway*.whl --user
 
 
 FROM python:3.7.7-slim-buster

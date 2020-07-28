@@ -17,7 +17,7 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip \
 RUN pip3 install PyGObject --user
 
 # Split builder in two parts to not rebuild base every time
-FROM transport_builder_base:latest AS builder
+FROM transport_builder_base AS builder
 
 COPY --chown=wirepas ./python_transport /home/wirepas/python_transport
 WORKDIR /home/wirepas/python_transport

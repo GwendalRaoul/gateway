@@ -1,4 +1,4 @@
-name: build dbus image
+name: build transport base builder
 
 on:
   push:

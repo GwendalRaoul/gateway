@@ -1,4 +1,4 @@
-FROM python:3.7.7-buster AS builder
+FROM python:3.7.7-buster AS transport_builder_base
 
 RUN useradd -ms /bin/bash wirepas
 RUN apt-get update
@@ -16,8 +16,10 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip \
 
 RUN pip3 install PyGObject --user
 
-COPY --chown=wirepas ./python_transport /home/wirepas/python_transport
+# Split builder in two parts to not rebuild base every time
+FROM transport_builder_base:latest AS builder
 
+COPY --chown=wirepas ./python_transport /home/wirepas/python_transport
 WORKDIR /home/wirepas/python_transport
 
 RUN ./utils/generate_wheel.sh

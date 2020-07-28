@@ -11,15 +11,17 @@ RUN apt-get install -y \
 
 USER wirepas
 
+RUN python3 -m pip install --no-cache-dir --upgrade pip \
+    && python3 -m pip install wheel setuptools
+
+RUN pip3 install PyGObject --user
+
 COPY --chown=wirepas ./python_transport /home/wirepas/python_transport
 
 WORKDIR /home/wirepas/python_transport
 
-RUN python3 -m pip install --no-cache-dir --upgrade pip \
-    && python3 -m pip install wheel setuptools \
-    && ./utils/generate_wheel.sh
+RUN ./utils/generate_wheel.sh
 
-RUN pip3 install PyGObject --user
 
 # HACK start: avoid installing grpcio (not needed)
 # It should be an option of wirepas-messaging wheel instead

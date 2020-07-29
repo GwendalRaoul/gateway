@@ -1,4 +1,4 @@
-name: sink service docker
+name: Sink service docker
 
 on:
   push:

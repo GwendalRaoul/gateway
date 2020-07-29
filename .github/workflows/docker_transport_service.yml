@@ -1,8 +1,11 @@
-name: build our images
+name: transport service docker
 
 on:
   push:
     branches: docker_rework
+    paths:
+    - 'docker/transport_service/Dockerfile'
+    - 'python_transport/**'
 
 jobs:
   build:
@@ -20,11 +23,6 @@ jobs:
       - name: build the transport service image
         run: |
           docker buildx build --push \
-          --tag gwendalraoul/transport-service:v0.1 \
+          --tag gwendalraoul/transport-service:v0.2 \
           --platform linux/amd64,linux/arm -f docker/transport_service/Dockerfile .
-      - name: build the sink service image
-        run: |
-          docker buildx build --push \
-          --tag gwendalraoul/sink-service:v0.1 \
-          --platform linux/amd64,linux/arm -f docker/sink_service/Dockerfile .
           

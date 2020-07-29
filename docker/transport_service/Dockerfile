@@ -1,29 +1,10 @@
-FROM python:3.7.7-buster AS transport_builder_base
-
-RUN useradd -ms /bin/bash wirepas
-RUN apt-get update
-
-RUN apt-get install -y \
-	python3-dev \
-        python3-gi \
-        libsystemd-dev \
-        libgirepository1.0-dev 
-
-USER wirepas
-
-RUN python3 -m pip install --no-cache-dir --upgrade pip \
-    && python3 -m pip install wheel setuptools
-
-RUN pip3 install PyGObject --user
-
-# Split builder in two parts to not rebuild base every time
-FROM transport_builder_base AS builder
+# Use our base builder to not rebuild base every time that should never change
+FROM gwendalraoul/transport_base_builder AS builder
 
 COPY --chown=wirepas ./python_transport /home/wirepas/python_transport
 WORKDIR /home/wirepas/python_transport
 
 RUN ./utils/generate_wheel.sh
-
 
 # HACK start: avoid installing grpcio (not needed)
 # It should be an option of wirepas-messaging wheel instead

@@ -5,6 +5,7 @@ on:
     branches: docker_rework
     paths:
     - 'docker/transport_service/Dockerfile_base_builder'
+    - '.github/workflows/docker_transport_base_builder.yml'
 
 jobs:
   build:

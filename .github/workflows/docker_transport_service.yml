@@ -6,6 +6,7 @@ on:
     paths:
     - 'docker/transport_service/Dockerfile'
     - 'python_transport/**'
+    - '.github/workflows/docker_transport_service.yml'
 
 jobs:
   build:

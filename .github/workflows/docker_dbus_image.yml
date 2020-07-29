@@ -6,6 +6,7 @@ on:
     paths:
     - 'docker/dbus/**'
     - 'sink_service/com.wirepas.sink.conf'
+    - '.github/workflows/docker_dbus_image.yml'
 
 jobs:
   build:
@@ -23,6 +24,6 @@ jobs:
       - name: build the dbus image
         run: |
           docker buildx build --push \
-          --tag gwendalraoul/dbus:v0.1 \
+          --tag gwendalraoul/dbus:v0.2 \
           --platform linux/amd64,linux/arm -f docker/dbus/Dockerfile .
           

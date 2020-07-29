@@ -6,6 +6,7 @@ on:
     paths:
     - 'docker/sink_service/Dockerfile'
     - 'sink_service/**'
+    - '.github/workflows/docker_sink_service.yml'
 
 jobs:
   build:

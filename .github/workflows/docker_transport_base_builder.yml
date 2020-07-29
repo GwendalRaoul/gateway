@@ -21,7 +21,7 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       - name: build image
         run: |
-          docker buildx build --target transport_base_builder --push \
+          docker buildx build --push \
           --tag gwendalraoul/transport_base_builder:latest \
           --platform linux/amd64,linux/arm -f docker/transport_service/Dockerfile_base_builder .
           
